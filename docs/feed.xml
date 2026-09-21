@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>News Reading（音読ニュース）</title>
+    <link>https://bbbryo6410-lab.github.io/news-reading-podcast/</link>
+    <language>ja</language>
+    <itunes:author>News Reading</itunes:author>
+    <description>Notionに毎晩追加される英語ニュース記事を、英語音声のまま聴けるPodcastです。</description>
+    <itunes:summary>Notionに毎晩追加される英語ニュース記事を、英語音声のまま聴けるPodcastです。</itunes:summary>
+    <itunes:image href="https://bbbryo6410-lab.github.io/news-reading-podcast/cover.jpg"/>
+    <image>
+      <url>https://bbbryo6410-lab.github.io/news-reading-podcast/cover.jpg</url>
+      <title>News Reading（音読ニュース）</title>
+      <link>https://bbbryo6410-lab.github.io/news-reading-podcast/</link>
+    </image>
+    <itunes:category text="Education"/>
+    <itunes:explicit>false</itunes:explicit>
+    <atom:link href="https://bbbryo6410-lab.github.io/news-reading-podcast/feed.xml" rel="self" type="application/rss+xml"/>
+
+  </channel>
+</rss>
