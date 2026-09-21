@@ -20,6 +20,8 @@ NOTION_VERSION = "2025-09-03"
 VOICE = "en-US-AriaNeural"
 
 BASE_URL = os.environ.get("PAGES_BASE_URL", "").rstrip("/")
+GITHUB_REPOSITORY = os.environ.get("GITHUB_REPOSITORY", "")  # "owner/repo"
+JSDELIVR_BRANCH = "main"
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 DOCS_DIR = REPO_ROOT / "docs"
@@ -27,6 +29,10 @@ EPISODES_DIR = DOCS_DIR / "episodes"
 EPISODES_JSON = DOCS_DIR / "episodes.json"
 FEED_PATH = DOCS_DIR / "feed.xml"
 COVER_URL = f"{BASE_URL}/cover.jpg"
+
+# GitHub Pagesはmp3にContent-Type: audio/mp3を返しApple Podcastsに拒否されるため、
+# 音声ファイルだけは正しいContent-Type(audio/mpeg)で配信されるjsDelivr CDN経由にする。
+AUDIO_BASE_URL = f"https://cdn.jsdelivr.net/gh/{GITHUB_REPOSITORY}@{JSDELIVR_BRANCH}/docs/episodes"
 
 HEADERS = {
     "Authorization": f"Bearer {NOTION_TOKEN}",
@@ -132,9 +138,24 @@ def synthesize_speech(text, out_path):
 
 
 def load_episodes():
-    if EPISODES_JSON.exists():
-        return json.loads(EPISODES_JSON.read_text(encoding="utf-8"))
-    return []
+    if not EPISODES_JSON.exists():
+        return []
+    episodes = json.loads(EPISODES_JSON.read_text(encoding="utf-8"))
+    for ep in episodes:
+        if "filename" not in ep:
+            ep["filename"] = ep["audio_url"].rsplit("/", 1)[-1]
+        ep.pop("audio_url", None)
+    return episodes
+
+
+def purge_jsdelivr_cache(filename):
+    if not GITHUB_REPOSITORY:
+        return
+    url = f"https://purge.jsdelivr.net/gh/{GITHUB_REPOSITORY}@{JSDELIVR_BRANCH}/docs/episodes/{filename}"
+    try:
+        requests.get(url, timeout=15)
+    except requests.RequestException as e:
+        print(f"jsDelivrキャッシュの更新リクエストに失敗しました(無視して続行): {e}")
 
 
 def save_episodes(episodes):
@@ -147,12 +168,13 @@ def build_feed(episodes):
     episodes_sorted = sorted(episodes, key=lambda e: e["pub_date_raw"], reverse=True)
     items_xml = []
     for ep in episodes_sorted:
+        audio_url = f"{AUDIO_BASE_URL}/{ep['filename']}"
         items_xml.append(f"""
     <item>
       <title>{escape(ep['title'])}</title>
       <description>{escape(ep['description'])}</description>
       <pubDate>{ep['pub_date_rfc822']}</pubDate>
-      <enclosure url="{escape(ep['audio_url'])}" length="{ep['file_size']}" type="audio/mpeg"/>
+      <enclosure url="{escape(audio_url)}" length="{ep['file_size']}" type="audio/mpeg"/>
       <guid isPermaLink="false">{ep['guid']}</guid>
       <itunes:duration>{ep['duration']}</itunes:duration>
       <itunes:explicit>false</itunes:explicit>
@@ -228,13 +250,14 @@ def main():
             "guid": page_id,
             "title": title,
             "description": body,
-            "audio_url": f"{BASE_URL}/episodes/{filename}",
+            "filename": filename,
             "file_size": out_path.stat().st_size,
             "duration": duration_str,
             "pub_date_raw": pub_dt.isoformat(),
             "pub_date_rfc822": pub_dt.strftime("%a, %d %b %Y %H:%M:%S %z"),
         })
 
+        purge_jsdelivr_cache(filename)
         mark_as_read(page_id)
         print(f"完了: {title}")
 
