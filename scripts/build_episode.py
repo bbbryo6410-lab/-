@@ -120,8 +120,11 @@ def mark_as_read(page_id):
     resp.raise_for_status()
 
 
-def synthesize_speech(text, out_path):
+def synthesize_speech(text, out_path, title):
+    """edge-ttsは24kHz/48kbpsの低品質mp3しか出力しないため、
+    ffmpegで一般的なPodcast品質(44.1kHz/128kbps)に変換し、ID3タグも付与する。"""
     text_file = out_path.with_suffix(".txt")
+    raw_path = out_path.with_suffix(".raw.mp3")
     text_file.write_text(text, encoding="utf-8")
     try:
         subprocess.run(
@@ -129,12 +132,28 @@ def synthesize_speech(text, out_path):
                 "edge-tts",
                 "--voice", VOICE,
                 "--file", str(text_file),
-                "--write-media", str(out_path),
+                "--write-media", str(raw_path),
+            ],
+            check=True,
+        )
+        subprocess.run(
+            [
+                "ffmpeg", "-y",
+                "-i", str(raw_path),
+                "-ar", "44100",
+                "-ac", "1",
+                "-b:a", "128k",
+                "-id3v2_version", "3",
+                "-metadata", f"title={title}",
+                "-metadata", "artist=News Reading",
+                "-metadata", "album=News Reading（音読ニュース）",
+                str(out_path),
             ],
             check=True,
         )
     finally:
         text_file.unlink(missing_ok=True)
+        raw_path.unlink(missing_ok=True)
 
 
 def load_episodes():
@@ -237,7 +256,7 @@ def main():
         out_path = EPISODES_DIR / filename
 
         print(f"音声を生成中: {title}")
-        synthesize_speech(body, out_path)
+        synthesize_speech(body, out_path, title)
 
         audio = MP3(str(out_path))
         duration_seconds = int(audio.info.length)
