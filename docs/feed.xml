@@ -18,6 +18,24 @@
     <atom:link href="https://bbbryo6410-lab.github.io/news-reading-podcast/feed.xml" rel="self" type="application/rss+xml"/>
 
     <item>
+      <title>Day 34 日本の時事 — 神奈川の最低賃金1,279円へ</title>
+      <description>Japan's minimum wage will rise across the whole country again this October. The national average will reach 1,177 yen per hour, which is 56 yen more than last year. Tokyo will keep the highest rate in Japan, at 1,280 yen per hour, as always. Surprisingly, Kanagawa's minimum wage will be raised to 1,279 yen, only one yen behind Tokyo's. This wage is decided by each prefecture every year, based on local living costs. Many part-time workers, who depend on this wage, will be affected by the change. Still, this rise may help people who are struggling to make ends meet.</description>
+      <pubDate>Thu, 24 Sep 2026 09:07:11 +0900</pubDate>
+      <enclosure url="https://cdn.jsdelivr.net/gh/bbbryo6410-lab/news-reading-podcast@main/docs/episodes/2026-09-23-3e4bea13.mp3" length="716998" type="audio/mpeg"/>
+      <guid isPermaLink="false">3e4bea13-9881-8155-8437-c1373770d407</guid>
+      <itunes:duration>00:00:44</itunes:duration>
+      <itunes:explicit>false</itunes:explicit>
+    </item>
+    <item>
+      <title>Day 32 アニメ業界のお金 — 制作費高騰でも儲からない業界構造</title>
+      <description>The global anime market was worth 30 billion dollars in 2024, and it could grow to almost 100 billion dollars by 2037. Streaming platforms are a major reason, because they now order many original anime series. As a result, a single episode that used to cost about 15 million yen can now cost up to 60 million yen. You might think animation studios must be getting richer because of this boom. Surprisingly, most studios still receive only a fixed fee, so their profit rarely increases even if the anime becomes a huge hit. This gap between global popularity and local pay remains a serious problem in the industry.</description>
+      <pubDate>Thu, 24 Sep 2026 09:07:08 +0900</pubDate>
+      <enclosure url="https://cdn.jsdelivr.net/gh/bbbryo6410-lab/news-reading-podcast@main/docs/episodes/2026-09-22-3e3bea13.mp3" length="689838" type="audio/mpeg"/>
+      <guid isPermaLink="false">3e3bea13-9881-8188-98c0-c591dd89b516</guid>
+      <itunes:duration>00:00:43</itunes:duration>
+      <itunes:explicit>false</itunes:explicit>
+    </item>
+    <item>
       <title>Day 30 簿記・会計 — ASBJが会計基準を同時改正</title>
       <description>On June 2, 2026, Japan's Accounting Standards Board revised two major accounting rules on the same day. One rule covers financial instruments, and the other covers consolidated financial statements, which are closely related topics. This was not a coincidence, because how a company values its financial instruments can affect its whole group's reported profits. Companies that use Japanese accounting standards must apply these new rules starting soon. Some companies have already begun studying the changes carefully, since the rules are quite technical. Even experienced accountants sometimes find these rules surprisingly difficult to fully understand at first.</description>
       <pubDate>Mon, 21 Sep 2026 22:28:08 +0900</pubDate>

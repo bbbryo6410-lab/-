@@ -18,5 +18,25 @@
     "duration": "00:00:43",
     "pub_date_raw": "2026-09-21T22:28:08.696108+09:00",
     "pub_date_rfc822": "Mon, 21 Sep 2026 22:28:08 +0900"
+  },
+  {
+    "guid": "3e3bea13-9881-8188-98c0-c591dd89b516",
+    "title": "Day 32 アニメ業界のお金 — 制作費高騰でも儲からない業界構造",
+    "description": "The global anime market was worth 30 billion dollars in 2024, and it could grow to almost 100 billion dollars by 2037. Streaming platforms are a major reason, because they now order many original anime series. As a result, a single episode that used to cost about 15 million yen can now cost up to 60 million yen. You might think animation studios must be getting richer because of this boom. Surprisingly, most studios still receive only a fixed fee, so their profit rarely increases even if the anime becomes a huge hit. This gap between global popularity and local pay remains a serious problem in the industry.",
+    "filename": "2026-09-22-3e3bea13.mp3",
+    "file_size": 689838,
+    "duration": "00:00:43",
+    "pub_date_raw": "2026-09-24T09:07:08.212786+09:00",
+    "pub_date_rfc822": "Thu, 24 Sep 2026 09:07:08 +0900"
+  },
+  {
+    "guid": "3e4bea13-9881-8155-8437-c1373770d407",
+    "title": "Day 34 日本の時事 — 神奈川の最低賃金1,279円へ",
+    "description": "Japan's minimum wage will rise across the whole country again this October. The national average will reach 1,177 yen per hour, which is 56 yen more than last year. Tokyo will keep the highest rate in Japan, at 1,280 yen per hour, as always. Surprisingly, Kanagawa's minimum wage will be raised to 1,279 yen, only one yen behind Tokyo's. This wage is decided by each prefecture every year, based on local living costs. Many part-time workers, who depend on this wage, will be affected by the change. Still, this rise may help people who are struggling to make ends meet.",
+    "filename": "2026-09-23-3e4bea13.mp3",
+    "file_size": 716998,
+    "duration": "00:00:44",
+    "pub_date_raw": "2026-09-24T09:07:11.814362+09:00",
+    "pub_date_rfc822": "Thu, 24 Sep 2026 09:07:11 +0900"
   }
 ]
