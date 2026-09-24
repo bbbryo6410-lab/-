@@ -50,15 +50,19 @@ def today_jst_str():
     return datetime.now(JST).strftime("%Y-%m-%d")
 
 
-def query_today_articles(date_str):
+def query_pending_articles(date_str):
+    """日付が実行日以前で、まだ「音読済み」でない記事を全部取得する。
+    cronの実行時刻とJST日付のズレで「今日ちょうど」の記事が
+    空振りするのを防ぐため、日付の完全一致ではなく「以前」で拾う。"""
     url = f"https://api.notion.com/v1/data_sources/{DATA_SOURCE_ID}/query"
     payload = {
         "filter": {
             "and": [
-                {"property": "日付", "date": {"equals": date_str}},
+                {"property": "日付", "date": {"on_or_before": date_str}},
                 {"property": "音読済み", "checkbox": {"equals": False}},
             ]
-        }
+        },
+        "sorts": [{"property": "日付", "direction": "ascending"}],
     }
     resp = requests.post(url, headers=HEADERS, json=payload, timeout=30)
     resp.raise_for_status()
@@ -71,6 +75,13 @@ def get_page_title(page):
     if title_prop:
         return "".join(t.get("plain_text", "") for t in title_prop)
     return "News Reading"
+
+
+def get_page_date(page):
+    date_prop = page["properties"].get("日付", {}).get("date")
+    if date_prop and date_prop.get("start"):
+        return date_prop["start"][:10]
+    return today_jst_str()
 
 
 def get_english_body(page_id):
@@ -229,11 +240,11 @@ def main():
         print("PAGES_BASE_URL is not set", file=sys.stderr)
         sys.exit(1)
 
-    date_str = today_jst_str()
-    articles = query_today_articles(date_str)
+    today_str = today_jst_str()
+    articles = query_pending_articles(today_str)
 
     if not articles:
-        print(f"{date_str} の記事が見つかりませんでした。処理をスキップします。")
+        print(f"{today_str} 時点で未処理の記事は見つかりませんでした。処理をスキップします。")
         return
 
     EPISODES_DIR.mkdir(parents=True, exist_ok=True)
@@ -251,8 +262,9 @@ def main():
             print(f"本文が見つかりませんでした: {title}")
             continue
 
+        article_date = get_page_date(page)
         short_id = page_id.replace("-", "")[:8]
-        filename = f"{date_str}-{short_id}.mp3"
+        filename = f"{article_date}-{short_id}.mp3"
         out_path = EPISODES_DIR / filename
 
         print(f"音声を生成中: {title}")
